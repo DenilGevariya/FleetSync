@@ -1,0 +1,51 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,jsx}"],
+  theme: {
+    extend: {
+      colors: {
+        void:  "#07090F",
+        hull:  "#0C0F1A",
+        deck:  "#101523",
+        plate: "#161D2E",
+        panel: "#1C2438",
+        rim:   "#232E44",
+        wire:  "#2A3850",
+        dim:   "#445570",
+        ghost: "#637898",
+        mist:  "#8499BC",
+        light: "#B0C4DE",
+        fog:   "#D0DDF0",
+        snow:  "#EEF3FA",
+        amber:  "#F59E0B",
+        amber2: "#FBBF24",
+        jade:   "#10B981",
+        jade2:  "#34D399",
+        rose:   "#F43F5E",
+        sky:    "#38BDF8",
+        violet: "#8B5CF6",
+      },
+      fontFamily: {
+        display: ['"Syne"', "sans-serif"],
+        body:    ['"DM Sans"', "sans-serif"],
+        mono:    ['"JetBrains Mono"', "monospace"],
+      },
+      animation: {
+        "fade-up":    "fadeUp 0.3s ease-out both",
+        "fade-up-1":  "fadeUp 0.3s 0.05s ease-out both",
+        "fade-up-2":  "fadeUp 0.3s 0.10s ease-out both",
+        "fade-up-3":  "fadeUp 0.3s 0.15s ease-out both",
+        "fade-up-4":  "fadeUp 0.3s 0.20s ease-out both",
+        "slide-in":   "slideIn 0.2s ease-out both",
+        "blink":      "blink 2s ease-in-out infinite",
+        "spin-slow":  "spin 1.2s linear infinite",
+      },
+      keyframes: {
+        fadeUp:  { from: { opacity: 0, transform: "translateY(10px)" }, to: { opacity: 1, transform: "translateY(0)" } },
+        slideIn: { from: { opacity: 0, transform: "translateX(10px)" }, to: { opacity: 1, transform: "translateX(0)" } },
+        blink:   { "0%,100%": { opacity: 1 }, "50%": { opacity: 0.2 } },
+      },
+    },
+  },
+  plugins: [],
+};
