@@ -149,6 +149,5 @@ npm install
 npm run dev
 
 App runs:
-
 http://localhost:3000
 ```
