@@ -23,12 +23,12 @@ const register = async (req, res, next) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const validRoles = ["MANAGER", "DISPATCHER", "SAFETY", "FINANCE"];
+    const validRoles = ["MANAGER", "DISPATCHER", "DRIVER", "FINANCE"];
     const userRole = validRoles.includes(role) ? role : "DISPATCHER";
 
     const result = await pool.query(
       "INSERT INTO users (name, email, password, role) VALUES ($1,$2,$3,$4) RETURNING id, name, email, role, created_at",
-      [name, email, hashed, userRole]
+      [name, email, hashed, userRole || "DISPATCHER" ]
     );
 
     const user = result.rows[0];

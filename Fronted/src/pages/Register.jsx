@@ -7,10 +7,12 @@ export default function Register() {
   const { register, user, loading } = useAuth();
   const navigate = useNavigate();
 
+  const ROLES = ["MANAGER", "DISPATCHER", "DRIVER", "FINANCE"];
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
+    role: "DISPATCHER",
   });
 
   const [error, setError] = useState("");
@@ -27,7 +29,7 @@ export default function Register() {
     }
 
     setError("");
-    const res = await register(form.name, form.email, form.password);
+    const res = await register(form.name, form.email, form.password,form.role);
 
     if (res.ok) navigate("/");
     else setError(res.message);
@@ -165,6 +167,21 @@ export default function Register() {
                 }
               />
             </div>
+
+            <div>
+  <label className="field-label">Role</label>
+  <select
+    className="field-input"
+    value={form.role}
+    onChange={(e) =>
+      setForm((f) => ({ ...f, role: e.target.value }))
+    }
+  >
+    {ROLES.map((r) => (
+      <option key={r} value={r}>{r}</option>
+    ))}
+  </select>
+     </div>
 
             {error && (
               <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-rose/10 border border-rose/20 text-rose text-sm">

@@ -23,13 +23,20 @@ export function AuthProvider({ children }) {
     } finally { setLoading(false); }
   };
 
-  const register = async (name, email, password) => {
+const register = async (name, email, password, role) => {
   setLoading(true);
   try {
-    const { data } = await authAPI.register({ name, email, password });
+    const { data } = await authAPI.register({
+      name,
+      email,
+      password,
+      role,
+    });
+
     localStorage.setItem("ff_token", data.data.token);
     localStorage.setItem("ff_user", JSON.stringify(data.data.user));
     setUser(data.data.user);
+
     return { ok: true };
   } catch (err) {
     return { ok: false, message: err.response?.data?.message || "Register failed." };
