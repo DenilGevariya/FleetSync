@@ -225,6 +225,7 @@ const dispatch = async (req, res, next) => {
         message: `Trip not dispatchable (${trip.status})`,
       });
     }
+    
 
     /* vehicle + driver availability */
     await client.query(
@@ -259,14 +260,14 @@ const dispatch = async (req, res, next) => {
 /* ──────────────────────────────────────────────
    COMPLETE TRIP
 ────────────────────────────────────────────── */
+// POST /api/trips/:id/complete
 const complete = async (req, res, next) => {
   const client = await pool.connect();
-
   try {
     await client.query("BEGIN");
 
     const tRes = await client.query(
-      "SELECT * FROM trips WHERE id=$1",
+      "SELECT * FROM trips WHERE id = $1",
       [req.params.id]
     );
 
@@ -274,32 +275,41 @@ const complete = async (req, res, next) => {
       await client.query("ROLLBACK");
       return res.status(404).json({
         success: false,
-        message: "Trip not found",
+        message: "Trip not found."
       });
     }
 
     const trip = tRes.rows[0];
 
+    // 🚨 DRIVER restriction
+    if (req.user.role === "DRIVER" && trip.driver_id !== req.user.id) {
+      await client.query("ROLLBACK");
+      return res.status(403).json({
+        success: false,
+        message: "You can only complete your assigned trips."
+      });
+    }
+
     if (trip.status !== "DISPATCHED") {
       await client.query("ROLLBACK");
       return res.status(409).json({
         success: false,
-        message: `Trip not completable (${trip.status})`,
+        message: `Trip cannot be completed. Status: ${trip.status}`
       });
     }
 
     await client.query(
-      "UPDATE trips SET status='COMPLETED' WHERE id=$1",
+      "UPDATE trips SET status = 'COMPLETED' WHERE id = $1",
       [req.params.id]
     );
 
     await client.query(
-      "UPDATE vehicles SET status='AVAILABLE' WHERE id=$1",
+      "UPDATE vehicles SET status = 'AVAILABLE' WHERE id = $1",
       [trip.vehicle_id]
     );
 
     await client.query(
-      "UPDATE drivers SET status='AVAILABLE' WHERE id=$1",
+      "UPDATE drivers SET status = 'AVAILABLE' WHERE id = $1",
       [trip.driver_id]
     );
 
@@ -307,7 +317,7 @@ const complete = async (req, res, next) => {
 
     res.json({
       success: true,
-      message: "Trip completed",
+      message: "Trip completed. Vehicle and driver are now AVAILABLE."
     });
   } catch (err) {
     await client.query("ROLLBACK");
@@ -316,7 +326,6 @@ const complete = async (req, res, next) => {
     client.release();
   }
 };
-
 /* ──────────────────────────────────────────────
    CANCEL TRIP
 ────────────────────────────────────────────── */
