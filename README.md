@@ -131,3 +131,50 @@ DRIVER | View assigned trips |
 ---
 
 # 📁 Project Structure
+FleetSync/
+├── Frontend/
+│ ├── src/
+│ │ ├── pages/
+│ │ ├── components/
+│ │ ├── contexts/
+│ │ ├── services/
+│ │ ├── layouts/
+│ │ └── App.jsx
+│ └── package.json
+│
+├── Backend/
+│ ├── src/
+│ │ ├── controllers/
+│ │ ├── routes/
+│ │ ├── middleware/
+│ │ ├── db/
+│ │ └── app.js
+│ └── package.json
+│
+└── README.md
+
+
+---
+
+# 🖥 Local Setup
+
+## 1️⃣ Clone repository
+
+```bash
+git clone https://github.com/yourusername/fleetflow.git
+cd fleetflow
+
+Backend Setup
+cd Backend
+npm install
+npm run dev
+
+Backend Setup
+cd Backend
+npm install
+npm run dev
+
+App runs:
+
+http://localhost:3000
+```
