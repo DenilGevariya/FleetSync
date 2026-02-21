@@ -128,33 +128,7 @@ SAFETY | Drivers |
 FINANCE | Fuel & maintenance |
 DRIVER | View assigned trips |
 
----
 
-# 📁 Project Structure
-FleetSync/
-├── Frontend/
-│ ├── src/
-│ │ ├── pages/
-│ │ ├── components/
-│ │ ├── contexts/
-│ │ ├── services/
-│ │ ├── layouts/
-│ │ └── App.jsx
-│ └── package.json
-│
-├── Backend/
-│ ├── src/
-│ │ ├── controllers/
-│ │ ├── routes/
-│ │ ├── middleware/
-│ │ ├── db/
-│ │ └── app.js
-│ └── package.json
-│
-└── README.md
-
-
----
 
 # 🖥 Local Setup
 
